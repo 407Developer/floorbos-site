@@ -1,0 +1,43 @@
+---
+interface Props {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+}
+
+const { id, name, price, image, description } = Astro.props;
+
+const formattedPrice = new Intl.NumberFormat('en-NG', {
+  style: 'currency',
+  currency: 'NGN',
+  minimumFractionDigits: 0,
+}).format(price);
+---
+
+<div itemscope itemtype="https://schema.org/Product" class="bg-white/90 backdrop-blur-sm shadow-xl rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group border border-stone-200/50">
+  <div class="relative">
+    <img itemprop="image" class="w-full h-40 md:h-56 object-cover" src={image} alt={`Image of ${name}`} />
+    <div class="absolute inset-0 bg-black/20"></div>
+  </div>
+  <div class="p-3 md:p-5">
+    <h3 itemprop="name" class="text-xl font-bold text-stone-800">{name}</h3>
+    <p itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="text-lg font-semibold text-stone-600 mt-1">
+      <meta itemprop="priceCurrency" content="NGN" />
+      <span itemprop="price" content={price}>{formattedPrice}</span>
+    </p>
+    <p itemprop="description" class="hidden">{description}</p>
+    <button
+      class="mt-4 w-full bg-stone-800 text-white py-2.5 px-4 rounded-lg font-semibold transition-colors duration-300 hover:bg-stone-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500"
+      data-product-id={id}
+      data-product-name={name}
+      data-product-price={price}
+      data-product-image={image}
+    >
+      Add to Cart
+    </button>
+  </div>
+</div>
+
+

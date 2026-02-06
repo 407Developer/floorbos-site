@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1,
+    "name": "Light Grey SPC Vinyl",
+    "price": 25000,
+    "category": "vinyl",
+    "image": "/images/vinyl-1.jpg",
+    "description": "Durable and waterproof Stone Plastic Composite vinyl flooring, perfect for modern homes."
+  },
+  {
+    "id": 2,
+    "name": "Oak Wood Skirting",
+    "price": 7500,
+    "category": "accessory",
+    "image": "/images/skirting-1.jpeg",
+    "description": "High-quality oak skirting to provide a clean finish between your floor and walls."
+  },
+  {
+    "id": 3,
+    "name": "isocol VTA Adhesive",
+    "price": 5000,
+    "category": "accessory",
+    "image": "/images/isocol-vta.jpeg",
+    "description": "A reliable, high-strength adhesive designed for securing all types of flooring."
+  },
+  {
+    "id": 4,
+    "name": "Dark Walnut SPC",
+    "price": 22000,
+    "category": "spc",
+    "image": "/images/spc-3.jpeg",
+    "description": "Rich, dark walnut SPC flooring that brings warmth and sophistication to any room."
+  },
+  {
+    "id": 5,
+    "name": "Artificial Grass Turf",
+    "price": 18000,
+    "category": "outdoor",
+    "image": "/images/vinyl-1.jpg",
+    "description": "Realistic and lush artificial grass for balconies, gardens, and commercial spaces."
+  },
+  {
+    "id": 6,
+    "name": "Natural Oak Vinyl",
+    "price": 26000,
+    "category": "vinyl",
+    "image": "/images/vinyl-6.jpg",
+    "description": "Classic natural oak vinyl that provides a timeless and elegant look."
+  },
+  {
+    "id": 7,
+    "name": "Smoked Ash Vinyl",
+    "price": 27500,
+    "category": "vinyl",
+    "image": "/images/vinyl-8.jpg",
+    "description": "A deep, smoked ash vinyl for a bold and contemporary aesthetic."
+  },
+  {
+    "id": 8,
+    "name": "Hickory Spice Vinyl",
+    "price": 24500,
+    "category": "vinyl",
+    "image": "/images/vinyl-3.jpg",
+    "description": "Warm and inviting hickory spice vinyl with realistic wood grain textures."
+  },
+  {
+    "id": 9,
+    "name": "Bleached Pine Vinyl",
+    "price": 28000,
+    "category": "vinyl",
+    "image": "/images/spc-2.jpeg",
+    "description": "Modern and bright bleached pine vinyl for a minimalist, Scandinavian feel."
+  },
+  {
+    "id": 10,
+    "name": "Silver Maple SPC",
+    "price": 23000,
+    "category": "spc",
+    "image": "/images/spc-3.jpeg",
+    "description": "Cool and sleek silver maple SPC flooring, ideal for high-traffic areas."
+  },
+  {
+    "id": 11,
+    "name": "Chestnut Brown SPC",
+    "price": 22500,
+    "category": "spc",
+    "image": "/images/spc-4.jpeg",
+    "description": "A classic chestnut brown SPC that offers durability and a traditional look."
+  },
+  {
+    "id": 12,
+    "name": "Floor Transition Strip",
+    "price": 4000,
+    "category": "accessory",
+    "image": "/images/transition-strip.jpeg",
+    "description": "Smoothly transition between different flooring types with this durable strip."
+  },
+  {
+    "id": 13,
+    "name": "top bond VTA Adhesive",
+    "price": 15000,
+    "category": "accessory",
+    "image": "/images/top-bond-vta.jpeg",
+    "description": "High-performance adhesive for securing various flooring materials."
+  }
+]

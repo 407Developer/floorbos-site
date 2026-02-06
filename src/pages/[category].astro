@@ -1,0 +1,56 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import products from '../data/products.json';
+
+export function getStaticPaths() {
+  const allProducts = products;
+  const uniqueCategories = [...new Set(allProducts.map(product => product.category))];
+
+  // Exclude 'outdoor' category from static paths as it's not in the main navigation
+  const categoriesToGenerate = uniqueCategories.filter(cat => cat !== 'outdoor');
+
+  return categoriesToGenerate.map(category => {
+    return {
+      params: { category: category },
+    };
+  });
+}
+
+const { category } = Astro.params;
+const filteredProducts = products.filter(product => product.category === category);
+
+const pageTitle = `FLOOR BOSS ng - ${category.charAt(0).toUpperCase() + category.slice(1)} Flooring`;
+const pageDescription = `Explore our premium collection of ${category} flooring options at FLOOR BOSS ng in Abuja. Durable, stylish, and perfect for your space.`;
+const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
+---
+
+<MainLayout 
+  title={pageTitle}
+  description={pageDescription}
+  canonicalURL={pageCanonicalURL}
+>
+  <div class="container mx-auto px-6 py-12">
+    <section class="text-center py-12">
+      <h1 class="text-5xl font-black text-stone-900 capitalize">{category}</h1>
+      <p class="mt-2 text-lg text-stone-600">Browse our collection of {category} flooring.</p>
+    </section>
+
+    <section class="py-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredProducts.map(product => (
+          <ProductCard 
+            id={product.id}
+            name={product.name}
+            price={product.price}
+            image={product.image}
+            description={product.description}
+          />
+        ))}
+      </div>
+      {filteredProducts.length === 0 && (
+        <p class="text-center text-stone-500">No products found in this category.</p>
+      )}
+    </section>
+  </div>
+</MainLayout>
