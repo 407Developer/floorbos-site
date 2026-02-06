@@ -171,8 +171,7 @@ const siteName = "FLOOR BOSS ng";
                 showToast(`${name} added to cart!`);
             }
 
-            // This logic is for pages that have "Add to Cart" buttons
-            document.addEventListener('DOMContentLoaded', () => {
+            function initPage() {
                 // Add to cart logic
                 const addCartButtons = document.querySelectorAll('button[data-product-id]');
                 addCartButtons.forEach(button => {
@@ -194,7 +193,11 @@ const siteName = "FLOOR BOSS ng";
                         mobileMenu.classList.toggle('hidden');
                     });
                 }
-            });
+            }
+
+            // Run on initial page load and also after client-side navigation
+            document.addEventListener('DOMContentLoaded', initPage);
+            document.addEventListener('astro:after-swap', initPage);
         </script>
 	</body>
 </html>
