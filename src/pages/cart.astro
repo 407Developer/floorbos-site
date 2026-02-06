@@ -68,22 +68,32 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
         const subtotal = item.price * item.quantity;
         total += subtotal;
         cartHTML += `
-          <div class="flex items-center justify-between bg-white p-4 rounded-lg shadow">
-            <div class="flex items-center space-x-4">
-              <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md" />
-              <div>
-                <h3 class="text-lg font-bold text-stone-800">${item.name}</h3>
-                <p class="text-stone-600">${formatPrice(item.price)}</p>
+          <div class="flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-lg shadow-sm border border-stone-100 gap-4">
+            <div class="flex items-center space-x-4 w-full sm:w-auto">
+              <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md border" />
+              <div class="flex-1">
+                <h3 class="text-base font-bold text-stone-800 leading-tight">${item.name}</h3>
+                <p class="text-sm text-stone-500">${formatPrice(item.price)}</p>
               </div>
             </div>
-            <div class="flex items-center space-x-4">
-              <div class="flex items-center space-x-2">
-                <button data-id="${item.id}" data-change="-1" class="quantity-btn w-8 h-8 bg-stone-200 rounded-full font-bold text-lg flex items-center justify-center">-</button>
-                <span class="w-10 text-center font-bold">${item.quantity}</span>
-                <button data-id="${item.id}" data-change="1" class="quantity-btn w-8 h-8 bg-stone-200 rounded-full font-bold text-lg flex items-center justify-center">+</button>
+
+            <div class="flex items-center justify-between w-full sm:w-auto sm:space-x-8 border-t sm:border-0 pt-3 sm:pt-0">
+              <div class="flex items-center space-x-3">
+                <button data-id="${item.id}" data-change="-1" class="quantity-btn w-9 h-9 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center transition-colors">
+                  <i class="fa-solid fa-minus text-xs"></i>
+                </button>
+                <span class="w-6 text-center font-bold text-stone-800">${item.quantity}</span>
+                <button data-id="${item.id}" data-change="1" class="quantity-btn w-9 h-9 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center transition-colors">
+                  <i class="fa-solid fa-plus text-xs"></i>
+                </button>
               </div>
-              <p class="text-lg font-bold w-32 text-right">${formatPrice(subtotal)}</p>
-              <button data-id="${item.id}" class="remove-item-btn w-8 h-8 bg-red-500 text-white rounded-full font-bold text-lg flex items-center justify-center ml-4">X</button>
+              
+              <div class="flex items-center space-x-6">
+                <p class="text-lg font-black text-stone-900 w-24 text-right">${formatPrice(subtotal)}</p>
+                <button data-id="${item.id}" class="remove-item-btn text-red-400 hover:text-red-600 transition-colors p-2">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -105,10 +115,12 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
       cartContainer.innerHTML = cartHTML;
 
       // Add event listeners for quantity buttons
+      // Update Quantity Listeners
       document.querySelectorAll('.quantity-btn').forEach(button => {
         button.addEventListener('click', (event) => {
-          const id = parseInt(event.target.dataset.id);
-          const change = parseInt(event.target.dataset.change);
+          const btn = event.currentTarget; // <--- FIX: always gets the button
+          const id = parseInt(btn.dataset.id);
+          const change = parseInt(btn.dataset.change);
           const product = cart.find(item => item.id === id);
           if (product) {
             updateCart(id, product.quantity + change);
@@ -116,10 +128,11 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
         });
       });
 
-      // Add event listeners for remove buttons
+      // Remove Item Listeners
       document.querySelectorAll('.remove-item-btn').forEach(button => {
         button.addEventListener('click', (event) => {
-          const id = parseInt(event.target.dataset.id);
+          const btn = event.currentTarget; // <--- FIX: always gets the button
+          const id = parseInt(btn.dataset.id);
           removeItem(id);
         });
       });

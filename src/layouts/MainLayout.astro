@@ -1,203 +1,285 @@
 ---
-import products from '../data/products.json';
+import products from "../data/products.json";
 
-const WHATSAPP_NUMBER = '+2349165208580'; // IMPORTANT: Replace with your actual WhatsApp number
-const PHONE_NUMBER = 'tel:+2349165208580';   // IMPORTANT: Replace with your actual Phone number
+const WHATSAPP_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual WhatsApp number
+const PHONE_NUMBER = "tel:+2349165208580"; // IMPORTANT: Replace with your actual Phone number
 
-const allCategories = [...new Set(products.map(p => p.category))].filter(c => c !== 'outdoor');
+const allCategories = [...new Set(products.map((p) => p.category))].filter(
+  (c) => c !== "outdoor",
+);
 
 interface Props {
-	title: string;
-    description?: string;
-    ogImage?: string;
-    canonicalURL?: string;
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string;
 }
 
 const { title, description, ogImage, canonicalURL } = Astro.props;
 
-const defaultDescription = "Discover Nigeria's finest collection of SPC, vinyl, and luxury flooring solutions from FLOOR BOSS ng, based in Abuja. Quality floors for homes and offices.";
+const defaultDescription =
+  "Discover Nigeria's finest collection of SPC, vinyl, and luxury flooring solutions from FLOOR BOSS ng, based in Abuja. Quality floors for homes and offices.";
 const defaultOgImage = "/images/floorboss-og.jpg"; // You'll need to create this image
 const currentURL = canonicalURL || Astro.url.href;
 const siteName = "FLOOR BOSS ng";
-
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
 
-		<!-- Primary Meta Tags -->
-		<title>{title}</title>
-		<meta name="title" content={title} />
-		<meta name="description" content={description || defaultDescription} />
-		<link rel="canonical" href={currentURL} />
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description || defaultDescription} />
+    <link rel="canonical" href={currentURL} />
 
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={currentURL} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description || defaultDescription} />
-		<meta property="og:image" content={ogImage || defaultOgImage} />
-        <meta property="og:site_name" content={siteName} />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={currentURL} />
+    <meta property="og:title" content={title} />
+    <meta
+      property="og:description"
+      content={description || defaultDescription}
+    />
+    <meta property="og:image" content={ogImage || defaultOgImage} />
+    <meta property="og:site_name" content={siteName} />
 
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={currentURL} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description || defaultDescription} />
-		<meta property="twitter:image" content={ogImage || defaultOgImage} />
-		
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body class="bg-stone-50 text-stone-800">
-		<header class="bg-white shadow-md sticky top-0 z-50">
-			<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-				<a href="/" class="text-2xl font-black tracking-wider text-stone-900">FLOOR<span class="text-stone-600">BOSS</span></a>
-				
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-6">
-					<a href="/" class="font-bold text-stone-700 hover:text-stone-900">Home</a>
-					{allCategories.map(category => (
-						<a href={`/${category}`} class="font-bold text-stone-700 hover:text-stone-900 uppercase">{category}</a>
-					))}
-					<a href="/cart" class="font-bold text-stone-700 hover:text-stone-900">Cart</a>
-				</div>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={currentURL} />
+    <meta property="twitter:title" content={title} />
+    <meta
+      property="twitter:description"
+      content={description || defaultDescription}
+    />
+    <meta property="twitter:image" content={ogImage || defaultOgImage} />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-stone-800 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
-			</nav>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-stone-800">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <nav
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <a href="/" class="text-2xl font-black tracking-wider text-stone-900"
+          >FLOOR<span class="text-stone-600">BOSS</span></a
+        >
 
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
-                <a href="/" class="block py-2 px-4 text-sm hover:bg-stone-100">Home</a>
-                {allCategories.map(category => (
-                    <a href={`/${category}`} class="block py-2 px-4 text-sm hover:bg-stone-100 capitalize">{category}</a>
-                ))}
-                <a href="/cart" class="block py-2 px-4 text-sm hover:bg-stone-100">Cart</a>
-            </div>
-		</header>
-
-		<main>
-			<slot />
-		</main>
-
-		<!-- Floating Buttons -->
-		<a href={PHONE_NUMBER} id="call-button" class="fixed bottom-6 left-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition-transform hover:scale-110">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-              <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.945L6.75 16.12a14.232 14.232 0 007.862 7.862l3.24-3.24c.75-.75 1.945-.606 1.945.606l4.423 1.105c.834.209 1.42.959 1.42 1.82V22.5a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-3.375c0-.621-.527-1.174-1.124-1.249L7.25 12.375c-.621-.075-1.272.16-1.745.514L3.497 14.232a3 3 0 01-3.497-3.497l1.721-2.008a2.52 2.52 0 01.514-1.745L1.5 4.5z" clip-rule="evenodd" />
-            </svg>
-		</a>
-		<a href="/cart" id="cart-button" class="fixed bottom-6 right-6 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-green-700 transition-transform hover:scale-110">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-              <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0v3.75c0 .621-.504 1.125-1.125 1.125H14.25c-.621 0-1.125-.504-1.125-1.125V6a3 3 0 00-6 0v3.75a1.125 1.125 0 01-1.125 1.125H4.875A1.125 1.125 0 013.75 9.75V6H3a.75.75 0 01-.75-.75L1.5 3.55a.75.75 0 01.21-.71L2.75 2.15a.75.75 0 01.75-.15H4.5a.75.75 0 01.69.51L6 4.35h.75a.75.75 0 01.75.75v.9c0 .414.336.75.75.75h6c.414 0 .75-.336.75-.75v-.9c0-.414.336-.75.75-.75h.75a.75.75 0 01.69.51l.75 1.79a.75.75 0 01.21.71L21.75 6.45a.75.75 0 01.21.71L20.25 18a.75.75 0 01-.75.75H4.5a.75.75 0 01-.75-.75L2.25 6.45a.75.75 0 01.21-.71l.75-1.79c.14-.33.447-.51.75-.51H4.5z" clip-rule="evenodd" />
-            </svg>
-		</a>
-
-		<footer class="text-center py-8 mt-12 bg-white border-t">
-			<p>&copy; {new Date().getFullYear()} FLOOR BOSS ng. All Rights Reserved.</p>
-			<p class="text-sm text-stone-500">Your Trusted Partner for Quality Floors in Abuja.</p>
-		</footer>
-
-        <!-- Toast Notification -->
-        <div id="toast-notification" class="fixed bottom-16 left-1/2 -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl z-[9999] opacity-0 transition-opacity duration-300 pointer-events-none">
-            Item added to cart!
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="/" class="font-bold text-stone-700 hover:text-stone-900"
+            >Home</a
+          >
+          {
+            allCategories.map((category) => (
+              <a
+                href={`/${category}`}
+                class="font-bold text-stone-700 hover:text-stone-900 uppercase"
+              >
+                {category}
+              </a>
+            ))
+          }
+          <a href="/cart" class="font-bold text-stone-700 hover:text-stone-900"
+            >Cart</a
+          >
         </div>
 
-        <style is:global>
-            /* Glowing border effect */
-            body.glowing-border {
-                outline: 4px solid #10B981; /* Tailwind green-500 equivalent */
-                outline-offset: -4px;
-                transition: outline 0.3s ease-out;
-            }
-        </style>
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button
+            id="mobile-menu-button"
+            class="text-stone-800 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
+        </div>
+      </nav>
 
-        <script>
-            let toastTimeout;
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+        <a href="/" class="block py-2 px-4 text-sm hover:bg-stone-100">Home</a>
+        {
+          allCategories.map((category) => (
+            <a
+              href={`/${category}`}
+              class="block py-2 px-4 text-sm hover:bg-stone-100 capitalize"
+            >
+              {category}
+            </a>
+          ))
+        }
+        <a href="/cart" class="block py-2 px-4 text-sm hover:bg-stone-100"
+          >Cart</a
+        >
+      </div>
+    </header>
 
-            function showToast(message) {
-                const toast = document.getElementById('toast-notification');
-                const body = document.body;
+    <main>
+      <slot />
+    </main>
 
-                if (toast) {
-                    toast.textContent = message;
-                    toast.classList.remove('opacity-0', 'pointer-events-none');
-                    toast.classList.add('opacity-100');
-                    body.classList.add('glowing-border');
+    <!-- Floating Buttons -->
+    ---
 
-                    clearTimeout(toastTimeout);
-                    toastTimeout = setTimeout(() => {
-                        hideToast();
-                    }, 3000); // Hide after 3 seconds
-                }
-            }
+    <a
+      href={`tel:${PHONE_NUMBER}`}
+      id="call-button"
+      class="fixed bottom-6 left-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center z-50 transition-transform hover:scale-110 active:scale-95"
+      aria-label="Call Floor Boss"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        class="w-8 h-8 pointer-events-none"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.945L6.75 12.12a14.232 14.232 0 007.862 7.862l3.24-3.24c.75-.75 1.945-.606 1.945.606l4.423 1.105c.834.209 1.42.959 1.42 1.82V22.5a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-3.375c0-.621-.527-1.174-1.124-1.249L7.25 12.375c-.621-.075-1.272.16-1.745.514L3.497 14.232a3 3 0 01-3.497-3.497l1.721-2.008a2.52 2.52 0 01.514-1.745L1.5 4.5z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </a>
 
-            function hideToast() {
-                const toast = document.getElementById('toast-notification');
-                const body = document.body;
-                if (toast) {
-                    toast.classList.remove('opacity-100');
-                    toast.classList.add('opacity-0', 'pointer-events-none');
-                    body.classList.remove('glowing-border');
-                }
-            }
+    <a
+      href={`tel:${PHONE_NUMBER}`}
+      class="fixed bottom-6 left-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-blue-700 transition-transform hover:scale-110 z-50"
+    >
+      <i class="fa-solid fa-phone"></i>
+    </a>
 
-            function addToCart(id, name, price, image) {
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                let product = cart.find(item => item.id === id);
+    <a
+      href="/cart"
+      class="fixed bottom-6 right-6 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-700 transition-transform hover:scale-110 z-50"
+    >
+      <i class="fa-solid fa-cart-shopping"></i>
+    </a>
 
-                if (product) {
-                    product.quantity += 1;
-                } else {
-                    cart.push({ id, name, price, image, quantity: 1 });
-                }
+    <footer class="text-center py-8 mt-12 bg-white border-t">
+      <p>
+        &copy; {new Date().getFullYear()} FLOOR BOSS ng. All Rights Reserved.
+      </p>
+      <p class="text-sm text-stone-500">
+        Your Trusted Partner for Quality Floors in Abuja.
+      </p>
+    </footer>
 
-                localStorage.setItem('cart', JSON.stringify(cart));
-                showToast(`${name} added to cart!`);
-            }
+    <!-- Toast Notification -->
+    <div
+      id="toast-notification"
+      class="fixed bottom-16 left-1/2 -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl z-[9999] opacity-0 transition-opacity duration-300 pointer-events-none"
+    >
+      Item added to cart!
+    </div>
 
-            function initPage() {
-                // Add to cart logic
-                const addCartButtons = document.querySelectorAll('button[data-product-id]');
-                addCartButtons.forEach(button => {
-                    button.addEventListener('click', (event) => {
-                        const target = event.currentTarget;
-                        const id = parseInt(target.dataset.productId);
-                        const name = target.dataset.productName;
-                        const price = parseFloat(target.dataset.productPrice);
-                        const image = target.dataset.productImage;
-                        addToCart(id, name, price, image);
-                    });
-                });
+    <style is:global>
+      /* Glowing border effect */
+      body.glowing-border {
+        outline: 4px solid #10b981; /* Tailwind green-500 equivalent */
+        outline-offset: -4px;
+        transition: outline 0.3s ease-out;
+      }
+    </style>
 
-                // Mobile menu toggle logic
-                const mobileMenuButton = document.getElementById('mobile-menu-button');
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
-                }
-            }
+    <script>
+      let toastTimeout;
 
-            // Run on initial page load and also after client-side navigation
-            document.addEventListener('DOMContentLoaded', initPage);
-            document.addEventListener('astro:after-swap', initPage);
-        </script>
-	</body>
+      function showToast(message) {
+        const toast = document.getElementById("toast-notification");
+        const body = document.body;
+
+        if (toast) {
+          toast.textContent = message;
+          toast.classList.remove("opacity-0", "pointer-events-none");
+          toast.classList.add("opacity-100");
+          body.classList.add("glowing-border");
+
+          clearTimeout(toastTimeout);
+          toastTimeout = setTimeout(() => {
+            hideToast();
+          }, 3000); // Hide after 3 seconds
+        }
+      }
+
+      function hideToast() {
+        const toast = document.getElementById("toast-notification");
+        const body = document.body;
+        if (toast) {
+          toast.classList.remove("opacity-100");
+          toast.classList.add("opacity-0", "pointer-events-none");
+          body.classList.remove("glowing-border");
+        }
+      }
+
+      function addToCart(id, name, price, image) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let product = cart.find((item) => item.id === id);
+
+        if (product) {
+          product.quantity += 1;
+        } else {
+          cart.push({ id, name, price, image, quantity: 1 });
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        showToast(`${name} added to cart!`);
+      }
+
+      function initPage() {
+        // Add to cart logic
+        const addCartButtons = document.querySelectorAll(
+          "button[data-product-id]",
+        );
+        addCartButtons.forEach((button) => {
+          button.addEventListener("click", (event) => {
+            const target = event.currentTarget;
+            const id = parseInt(target.dataset.productId);
+            const name = target.dataset.productName;
+            const price = parseFloat(target.dataset.productPrice);
+            const image = target.dataset.productImage;
+            addToCart(id, name, price, image);
+          });
+        });
+
+        // Mobile menu toggle logic
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+          });
+        }
+      }
+
+      // Run on initial page load and also after client-side navigation
+      document.addEventListener("DOMContentLoaded", initPage);
+      document.addEventListener("astro:after-swap", initPage);
+    </script>
+  </body>
 </html>
