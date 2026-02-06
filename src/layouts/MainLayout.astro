@@ -2,7 +2,7 @@
 import products from "../data/products.json";
 
 const WHATSAPP_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual WhatsApp number
-const PHONE_NUMBER = "tel:+2349165208580"; // IMPORTANT: Replace with your actual Phone number
+const PHONE_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual Phone number
 
 const allCategories = [...new Set(products.map((p) => p.category))].filter(
   (c) => c !== "outdoor",
@@ -146,37 +146,19 @@ const siteName = "FLOOR BOSS ng";
     </main>
 
     <!-- Floating Buttons -->
-    ---
+    
+
 
     <a
       href={`tel:${PHONE_NUMBER}`}
-      id="call-button"
-      class="fixed bottom-6 left-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center z-50 transition-transform hover:scale-110 active:scale-95"
-      aria-label="Call Floor Boss"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="w-8 h-8 pointer-events-none"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.945L6.75 12.12a14.232 14.232 0 007.862 7.862l3.24-3.24c.75-.75 1.945-.606 1.945.606l4.423 1.105c.834.209 1.42.959 1.42 1.82V22.5a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-3.375c0-.621-.527-1.174-1.124-1.249L7.25 12.375c-.621-.075-1.272.16-1.745.514L3.497 14.232a3 3 0 01-3.497-3.497l1.721-2.008a2.52 2.52 0 01.514-1.745L1.5 4.5z"
-          clip-rule="evenodd"></path>
-      </svg>
-    </a>
-
-    <a
-      href={`tel:${PHONE_NUMBER}`}
-      class="fixed bottom-6 left-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-blue-700 transition-transform hover:scale-110 z-50"
+      class="fixed bottom-24 md:bottom-6 left-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-blue-700 transition-transform hover:scale-110 z-50"
     >
       <i class="fa-solid fa-phone"></i>
     </a>
 
     <a
       href="/cart"
-      class="fixed bottom-6 right-6 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-700 transition-transform hover:scale-110 z-50"
+      class="fixed bottom-24 md:bottom-6 right-6 bg-green-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-green-700 transition-transform hover:scale-110 z-50"
     >
       <i class="fa-solid fa-cart-shopping"></i>
     </a>
