@@ -8,9 +8,8 @@ export function getStaticPaths() {
   const uniqueCategories = [...new Set(allProducts.map(product => product.category))];
 
   // Exclude 'outdoor' category from static paths as it's not in the main navigation
-  const categoriesToGenerate = uniqueCategories.filter(cat => cat !== 'outdoor');
 
-  return categoriesToGenerate.map(category => {
+  return uniqueCategories.map(category => {
     return {
       params: { category: category },
     };

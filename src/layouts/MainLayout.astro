@@ -4,9 +4,7 @@ import products from "../data/products.json";
 const WHATSAPP_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual WhatsApp number
 const PHONE_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual Phone number
 
-const allCategories = [...new Set(products.map((p) => p.category))].filter(
-  (c) => c !== "outdoor",
-);
+const allCategories = [...new Set(products.map((p) => p.category))]
 
 interface Props {
   title: string;

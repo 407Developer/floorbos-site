@@ -5,6 +5,12 @@
     "price": 25000,
     "category": "vinyl",
     "image": "/images/vinyl-1.jpg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Durable and waterproof Stone Plastic Composite vinyl flooring, perfect for modern homes."
   },
   {
@@ -13,6 +19,12 @@
     "price": 7500,
     "category": "accessory",
     "image": "/images/skirting-1.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "High-quality oak skirting to provide a clean finish between your floor and walls."
   },
   {
@@ -21,6 +33,12 @@
     "price": 5000,
     "category": "accessory",
     "image": "/images/isocol-vta.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "A reliable, high-strength adhesive designed for securing all types of flooring."
   },
   {
@@ -29,14 +47,26 @@
     "price": 22000,
     "category": "spc",
     "image": "/images/spc-3.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Rich, dark walnut SPC flooring that brings warmth and sophistication to any room."
   },
   {
     "id": 5,
     "name": "Artificial Grass Turf",
     "price": 18000,
-    "category": "outdoor",
+    "category": "accessory",
     "image": "/images/vinyl-1.jpg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Realistic and lush artificial grass for balconies, gardens, and commercial spaces."
   },
   {
@@ -45,6 +75,12 @@
     "price": 26000,
     "category": "vinyl",
     "image": "/images/vinyl-6.jpg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Classic natural oak vinyl that provides a timeless and elegant look."
   },
   {
@@ -53,6 +89,12 @@
     "price": 27500,
     "category": "vinyl",
     "image": "/images/vinyl-8.jpg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "A deep, smoked ash vinyl for a bold and contemporary aesthetic."
   },
   {
@@ -61,6 +103,12 @@
     "price": 24500,
     "category": "vinyl",
     "image": "/images/vinyl-3.jpg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Warm and inviting hickory spice vinyl with realistic wood grain textures."
   },
   {
@@ -69,6 +117,12 @@
     "price": 28000,
     "category": "vinyl",
     "image": "/images/spc-2.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Modern and bright bleached pine vinyl for a minimalist, Scandinavian feel."
   },
   {
@@ -77,6 +131,12 @@
     "price": 23000,
     "category": "spc",
     "image": "/images/spc-3.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Cool and sleek silver maple SPC flooring, ideal for high-traffic areas."
   },
   {
@@ -85,6 +145,12 @@
     "price": 22500,
     "category": "spc",
     "image": "/images/spc-4.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "A classic chestnut brown SPC that offers durability and a traditional look."
   },
   {
@@ -93,6 +159,12 @@
     "price": 4000,
     "category": "accessory",
     "image": "/images/transition-strip.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "Smoothly transition between different flooring types with this durable strip."
   },
   {
@@ -101,6 +173,12 @@
     "price": 15000,
     "category": "accessory",
     "image": "/images/top-bond-vta.jpeg",
+    "images": [
+      "/images/oak-main.jpeg",
+      "/images/oak-detail-1.jpg",
+      "/images/oak-detail-2.jpg",
+      "/images/oak-texture.jpg"
+    ],
     "description": "High-performance adhesive for securing various flooring materials."
   }
 ]
