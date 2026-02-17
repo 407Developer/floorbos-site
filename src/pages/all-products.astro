@@ -3,18 +3,8 @@ import MainLayout from "../layouts/MainLayout.astro";
 import ProductCard from "../components/ProductCard.astro";
 import products from "../data/products.json";
 
-export function getStaticPaths() {
-  const categories = [...new Set(products.map((p) => p.category))];
-  return categories.map((category) => ({
-    params: { category },
-  }));
-}
-
-const { category } = Astro.params;
-const productsFromCategory = products.filter((p) => p.category === category);
-
-const pageTitle = `FLOOR BOSS ng - ${category.charAt(0).toUpperCase() + category.slice(1)}`;
-const pageDescription = `Explore our collection of ${category} flooring solutions.`;
+const pageTitle = `FLOOR BOSS ng - All Products`;
+const pageDescription = `Explore our complete collection of flooring solutions.`;
 const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
 ---
 
@@ -28,10 +18,10 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
       <h1
         class="text-4xl sm:text-5xl md:text-6xl font-black text-stone-900 leading-tight"
       >
-        {category.charAt(0).toUpperCase() + category.slice(1)}
+        All Products
       </h1>
       <p class="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto">
-        Browse our premium selection of {category} flooring.
+        Browse our entire premium selection of flooring.
       </p>
     </section>
 
@@ -55,7 +45,7 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
         class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
       >
         {
-          productsFromCategory.map((product) => (
+          products.map((product) => (
             <a
               href=`/${product.id}`
               class="font-bold text-stone-700 hover:text-stone-900 uppercase product-card"

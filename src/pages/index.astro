@@ -16,7 +16,13 @@ const featuredProducts = [
   ...featuredSpc,
   ...featuredAccessory,
 ];
-const uniqueId = [...new Set(products.map((product) => product.id))];
+
+const allCategories = [...new Set(products.map((p) => p.category))];
+const categoryImages = {
+  vinyl: "/images/vinyl-1.jpg",
+  spc: "/images/spc-1.jpeg",
+  accessory: "/images/skirting-1.jpeg",
+};
 
 const pageTitle = "FLOOR BOSS ng - Premium Flooring in Abuja & Beyond";
 const pageDescription =
@@ -86,30 +92,16 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
     <section class="py-12">
       <h2 class="text-3xl font-bold text-center mb-10">Our Categories</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        <a href="/vinyl" class="group block">
-          <div class="relative rounded-lg overflow-hidden">
-            <img src="/images/vinyl-1.jpg" alt="Vinyl Flooring" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-300">
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <h3 class="text-2xl font-bold text-white uppercase tracking-widest">Vinyl</h3>
+        {allCategories.map((category) => (
+          <a href={`/${category}`} class="group block">
+            <div class="relative rounded-lg overflow-hidden">
+              <img src={categoryImages[category]} alt={`${category} Flooring`} class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-300">
+              <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <h3 class="text-2xl font-bold text-white uppercase tracking-widest">{category}</h3>
+              </div>
             </div>
-          </div>
-        </a>
-        <a href="/spc" class="group block">
-          <div class="relative rounded-lg overflow-hidden">
-            <img src="/images/spc-1.jpeg" alt="SPC Flooring" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-300">
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <h3 class="text-2xl font-bold text-white uppercase tracking-widest">SPC</h3>
-            </div>
-          </div>
-        </a>
-        <a href="/accessory" class="group block">
-          <div class="relative rounded-lg overflow-hidden">
-            <img src="/images/skirting-1.jpeg" alt="Accessories" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-300">
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <h3 class="text-2xl font-bold text-white uppercase tracking-widest">Accessories</h3>
-            </div>
-          </div>
-        </a>
+          </a>
+        ))}
       </div>
     </section>
 
@@ -117,7 +109,7 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
     <section class="py-12">
       <h2 class="text-3xl font-bold text-center mb-10">Featured Products</h2>
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
       >
         {
           featuredProducts.map((product) => (
@@ -135,6 +127,11 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
             </a>
           ))
         }
+      </div>
+      <div class="text-center mt-10">
+        <a href="/all-products" class="bg-stone-800 text-white py-3 px-8 rounded-lg font-semibold text-lg transition-colors duration-300 hover:bg-stone-900">
+          View All Products
+        </a>
       </div>
     </section>
   </div>

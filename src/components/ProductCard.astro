@@ -46,17 +46,17 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
   import { addToCart } from "../lib/cart.js";
 
   document.querySelectorAll('.bg-white/90').forEach(card => {
-    const button = card.querySelector('button');
-    if (button) {
-      button.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent navigation if the card is wrapped in an anchor
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button')) {
+        e.preventDefault();
+        const button = e.target.closest('button');
         const id = parseInt(button.dataset.productId);
         const name = button.dataset.productName;
         const price = parseFloat(button.dataset.productPrice);
         const image = button.dataset.productImage;
         addToCart(id, name, price, image);
-      });
-    }
+      }
+    });
   });
 </script>
 
