@@ -1,55 +1,108 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import ProductCard from '../components/ProductCard.astro';
-import products from '../data/products.json';
+import MainLayout from "../layouts/MainLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import products from "../data/products.json";
 
 export function getStaticPaths() {
-  const allProducts = products;
-  const uniqueCategories = [...new Set(allProducts.map(product => product.category))];
-
-  // Exclude 'outdoor' category from static paths as it's not in the main navigation
-
-  return uniqueCategories.map(category => {
-    return {
-      params: { category: category },
-    };
-  });
+  const categories = [...new Set(products.map((p) => p.category))];
+  return categories.map((category) => ({
+    params: { category },
+  }));
 }
 
 const { category } = Astro.params;
-const filteredProducts = products.filter(product => product.category === category);
+const productsFromCategory = products.filter((p) => p.category === category);
 
-const pageTitle = `FLOOR BOSS ng - ${category.charAt(0).toUpperCase() + category.slice(1)} Flooring`;
-const pageDescription = `Explore our premium collection of ${category} flooring options at FLOOR BOSS ng in Abuja. Durable, stylish, and perfect for your space.`;
+const pageTitle = `FLOOR BOSS ng - ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+const pageDescription = `Explore our collection of ${category} flooring solutions.`;
 const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
 ---
 
-<MainLayout 
+<MainLayout
   title={pageTitle}
   description={pageDescription}
   canonicalURL={pageCanonicalURL}
 >
-  <div class="container mx-auto px-6 py-12">
-    <section class="text-center py-12">
-      <h1 class="text-2xl md:text-5xl font-black text-stone-900 capitalize">{category}</h1>
-      <p class="mt-2 text-lg text-stone-600">Browse our collection of {category} flooring.</p>
+  <div class="container mx-auto px-4 md:px-6 py-12">
+    <section class="text-center py-12 md:py-16">
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-black text-stone-900 leading-tight"
+      >
+        {category.charAt(0).toUpperCase() + category.slice(1)}
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto">
+        Browse our premium selection of {category} flooring.
+      </p>
     </section>
 
     <section class="py-12">
-      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredProducts.map(product => (
-          <ProductCard 
-            id={product.id}
-            name={product.name}
-            price={product.price}
-            image={product.image}
-            description={product.description}
-          />
-        ))}
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4">
+        <div class="relative w-full sm:w-auto">
+          <input type="search" id="search-input" placeholder="Search products..." class="w-full sm:w-64 pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500" />
+          <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"></i>
+        </div>
+        <div class="relative w-full sm:w-auto">
+          <select id="sort-select" class="w-full sm:w-48 appearance-none bg-white border rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-stone-500">
+            <option value="default">Sort by</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+          <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-stone-400"></i>
+        </div>
       </div>
-      {filteredProducts.length === 0 && (
-        <p class="text-center text-stone-500">No products found in this category.</p>
-      )}
+      <div
+        id="product-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+      >
+        {
+          productsFromCategory.map((product) => (
+            <a
+              href=`/${product.id}`
+              class="font-bold text-stone-700 hover:text-stone-900 uppercase product-card"
+              data-name={product.name.toLowerCase()}
+              data-price={product.price}
+            >
+              <ProductCard
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                image={product.image}
+                description={product.description}
+              />
+            </a>
+          ))
+        }
+      </div>
     </section>
   </div>
 </MainLayout>
+
+<script>
+  const searchInput = document.getElementById('search-input');
+  const sortSelect = document.getElementById('sort-select');
+  const productGrid = document.getElementById('product-grid');
+  const productCards = Array.from(productGrid.querySelectorAll('.product-card'));
+
+  function filterAndSortProducts() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const sortValue = sortSelect.value;
+
+    let filtered = productCards.filter(card => {
+      return card.dataset.name.includes(searchTerm);
+    });
+
+    if (sortValue === 'price-asc') {
+      filtered.sort((a, b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+    } else if (sortValue === 'price-desc') {
+      filtered.sort((a, b) => parseFloat(b.dataset.price) - parseFloat(a.dataset.price));
+    }
+
+    productGrid.innerHTML = '';
+    filtered.forEach(card => {
+      productGrid.appendChild(card);
+    });
+  }
+
+  searchInput.addEventListener('input', filterAndSortProducts);
+  sortSelect.addEventListener('change', filterAndSortProducts);
+</script>
