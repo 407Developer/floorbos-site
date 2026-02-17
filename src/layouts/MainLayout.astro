@@ -261,5 +261,19 @@ const siteName = "FLOOR BOSS ng";
       document.addEventListener("DOMContentLoaded", initPage);
       document.addEventListener("astro:after-swap", initPage);
     </script>
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-600 text-white py-3 px-6 rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+      Item added to cart!
+    </div>
+    <style is:global>
+      @keyframes glowing {
+        0% { border-color: #22c55e; box-shadow: 0 0 5px #22c55e; }
+        50% { border-color: #16a34a; box-shadow: 0 0 20px #16a34a; }
+        100% { border-color: #22c55e; box-shadow: 0 0 5px #22c55e; }
+      }
+      .glowing-border {
+        animation: glowing 1s infinite;
+        border: 2px solid transparent;
+      }
+    </style>
   </body>
 </html>

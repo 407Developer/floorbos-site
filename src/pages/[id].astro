@@ -1,6 +1,6 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import products from '../data/products.json';
+import MainLayout from "../layouts/MainLayout.astro";
+import products from "../data/products.json";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -12,9 +12,9 @@ export function getStaticPaths() {
 const { product } = Astro.props;
 
 // Format price for Nigeria
-const formattedPrice = new Intl.NumberFormat('en-NG', {
-  style: 'currency',
-  currency: 'NGN',
+const formattedPrice = new Intl.NumberFormat("en-NG", {
+  style: "currency",
+  currency: "NGN",
   minimumFractionDigits: 0,
 }).format(product.price);
 ---
@@ -22,26 +22,33 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
 <MainLayout title={product.name}>
   <div class="container mx-auto px-6 py-12">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-      
       <div class="space-y-4">
-        <div class="relative overflow-hidden rounded-2xl bg-stone-100 border border-stone-200">
-          <img 
-            id="main-image" 
-            src={product.image} 
-            alt={product.name} 
+        <div
+          class="relative overflow-hidden rounded-2xl bg-stone-100 border border-stone-200"
+        >
+          <img
+            id="main-image"
+            src={product.image}
+            alt={product.name}
             class="w-full h-[400px] md:h-[600px] object-cover transition-opacity duration-300"
           />
         </div>
-        
+
         <div class="grid grid-cols-4 gap-4">
-          {product.images.map((img, index) => (
-            <button 
-              class="thumbnail-btn overflow-hidden rounded-lg border-2 border-transparent hover:border-stone-800 focus:border-stone-800 transition-all"
-              data-src={img}
-            >
-              <img src={img} alt={`View ${index + 1}`} class="w-full h-20 md:h-28 object-cover" />
-            </button>
-          ))}
+          {
+            product.images.map((img, index) => (
+              <button
+                class="thumbnail-btn overflow-hidden rounded-lg border-2 border-transparent hover:border-stone-800 focus:border-stone-800 transition-all"
+                data-src={img}
+              >
+                <img
+                  src={img}
+                  alt={`View ${index + 1}`}
+                  class="w-full h-20 md:h-28 object-cover"
+                />
+              </button>
+            ))
+          }
         </div>
       </div>
 
@@ -49,9 +56,11 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
         <nav class="text-sm text-stone-500 mb-4 uppercase tracking-widest">
           Floor Boss NG / {product.category}
         </nav>
-        <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">{product.name}</h1>
+        <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">
+          {product.name}
+        </h1>
         <p class="text-3xl font-bold text-stone-800 mb-6">{formattedPrice}</p>
-        
+
         <div class="prose prose-stone mb-8">
           <p class="text-stone-600 text-lg leading-relaxed">
             {product.description}
@@ -59,10 +68,20 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4">
-          <button class="flex-1 bg-stone-900 text-white py-4 rounded-xl font-bold hover:bg-black transition-colors shadow-lg shadow-stone-200">
+          <button
+            id="add-to-cart-btn"
+            class="flex-1 bg-stone-900 text-white py-4 rounded-xl font-bold hover:bg-black transition-colors shadow-lg shadow-stone-200"
+            data-product-id={product.id}
+            data-product-name={product.name}
+            data-product-price={product.price}
+            data-product-image={product.image}
+          >
             Add to Cart
           </button>
-          <button class="flex-1 border-2 border-stone-900 text-stone-900 py-4 rounded-xl font-bold hover:bg-stone-50 transition-colors">
+          <button
+            id="whatsapp-inquiry-btn"
+            class="flex-1 border-2 border-stone-900 text-stone-900 py-4 rounded-xl font-bold hover:bg-stone-50 transition-colors"
+          >
             WhatsApp Inquiry
           </button>
         </div>
@@ -72,21 +91,46 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
 </MainLayout>
 
 <script>
-  // Script to handle the "Slide" / Swap effect
-  const mainImage = document.getElementById('main-image') as HTMLImageElement;
-  const thumbnailBtns = document.querySelectorAll('.thumbnail-btn');
+  import { addToCart } from "../lib/cart.js";
 
-  thumbnailBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const newSrc = btn.getAttribute('data-src');
+  // Script to handle the "Slide" / Swap effect
+  const mainImage = document.getElementById("main-image") as HTMLImageElement;
+  const thumbnailBtns = document.querySelectorAll(".thumbnail-btn");
+
+  thumbnailBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const newSrc = btn.getAttribute("data-src");
       if (mainImage && newSrc) {
         // Simple fade out/in effect
-        mainImage.style.opacity = '0';
+        mainImage.style.opacity = "0";
         setTimeout(() => {
           mainImage.src = newSrc;
-          mainImage.style.opacity = '1';
+          mainImage.style.opacity = "1";
         }, 200);
       }
     });
   });
+
+  // Add to Cart Logic
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', () => {
+      const id = parseInt(addToCartBtn.dataset.productId);
+      const name = addToCartBtn.dataset.productName;
+      const price = parseFloat(addToCartBtn.dataset.productPrice);
+      const image = addToCartBtn.dataset.productImage;
+      addToCart(id, name, price, image);
+    });
+  }
+
+  // WhatsApp Inquiry Logic
+  const whatsappInquiryBtn = document.getElementById('whatsapp-inquiry-btn');
+  if (whatsappInquiryBtn) {
+    whatsappInquiryBtn.addEventListener('click', () => {
+      const productName = document.querySelector('h1').textContent;
+      const message = `Hello Floor Boss, I have an inquiry about the following product: ${productName}`;
+      const whatsappUrl = `https://wa.me/+2349165208580?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    });
+  }
 </script>
