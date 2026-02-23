@@ -1,6 +1,9 @@
 
 
 ---
+import { Image } from "astro:assets";
+import { resolveImage } from "../lib/imageMap";
+
 interface Props {
   id: number;
   name: string;
@@ -10,6 +13,7 @@ interface Props {
 }
 
 const { id, name, price, image, description } = Astro.props;
+const imageSrc = resolveImage(image);
 
 const formattedPrice = new Intl.NumberFormat('en-NG', {
   style: 'currency',
@@ -20,7 +24,32 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
 
 <div itemscope itemtype="https://schema.org/Product" class="bg-white/90 backdrop-blur-sm shadow-xl rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group border border-stone-200/50">
   <div class="relative">
-    <img itemprop="image" class="w-full h-40 md:h-56 object-cover" src={image} alt={`Image of ${name}`} />
+    {
+      imageSrc ? (
+        <Image
+          itemprop="image"
+          class="w-full h-40 md:h-56 object-cover"
+          src={imageSrc}
+          alt={`Image of ${name}`}
+          loading="lazy"
+          decoding="async"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+          width={640}
+          height={480}
+        />
+      ) : (
+        <img
+          itemprop="image"
+          class="w-full h-40 md:h-56 object-cover"
+          src={image}
+          alt={`Image of ${name}`}
+          loading="lazy"
+          decoding="async"
+          width="640"
+          height="480"
+        />
+      )
+    }
     <div class="absolute inset-0 bg-black/20"></div>
   </div>
   <div class="p-3 md:p-5">
@@ -31,7 +60,7 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
     </p>
     <p itemprop="description" class="hidden">{description}</p>
     <button
-      class="mt-4 w-full bg-stone-800 text-white py-2.5 px-4 rounded-lg font-semibold transition-colors duration-300 hover:bg-stone-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500"
+      class="mt-4 w-full bg-[var(--brand-ink)] text-white py-2.5 px-4 rounded-lg font-semibold transition-colors duration-300 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-orange)]"
       data-product-id={id}
       data-product-name={name}
       data-product-price={price}
@@ -41,23 +70,3 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
     </button>
   </div>
 </div>
-
-<script>
-  import { addToCart } from "../lib/cart.js";
-
-  document.querySelectorAll('.bg-white/90').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('button')) {
-        e.preventDefault();
-        const button = e.target.closest('button');
-        const id = parseInt(button.dataset.productId);
-        const name = button.dataset.productName;
-        const price = parseFloat(button.dataset.productPrice);
-        const image = button.dataset.productImage;
-        addToCart(id, name, price, image);
-      }
-    });
-  });
-</script>
-
-

@@ -2,6 +2,8 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ProductCard from "../components/ProductCard.astro";
 import products from "../data/products.json";
+import { Image } from "astro:assets";
+import { resolveImage } from "../lib/imageMap";
 
 // Get featured products based on the 5:3:1 ratio
 const featuredVinyl = products
@@ -74,43 +76,282 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
     </script>
   </Fragment>
 
-  <div class="container mx-auto px-4 md:px-6 py-12">
-    <!-- Hero Section -->
-    <section class="text-center py-12 md:py-16">
-      <h1
-        class="text-4xl sm:text-5xl md:text-6xl font-black text-stone-900 leading-tight"
-      >
-        Premium Flooring in <span class="text-stone-700">Abuja</span> & Beyond
-      </h1>
-      <p class="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto">
-        Discover Nigeria's finest collection of SPC, vinyl, and luxury flooring
-        solutions.
-      </p>
-    </section>
+  <div class="container mx-auto px-4 md:px-6 py-10 md:py-16">
+    <!-- Hero + Bento -->
+    <section class="relative overflow-hidden rounded-3xl bg-[#f6f2ea] border border-stone-200/60 p-6 md:p-10">
+      <div class="pointer-events-none absolute -top-16 -right-20 h-56 w-56 rounded-full bg-gradient-to-br from-amber-200/70 via-orange-200/40 to-transparent blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-gradient-to-tr from-emerald-200/60 via-lime-200/40 to-transparent blur-3xl"></div>
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full bg-[var(--brand-ink)] text-stone-50 px-4 py-1.5 text-xs uppercase tracking-[0.2em]">
+            Abuja Flooring Experts
+          </span>
+          <h1
+            class="mt-5 text-4xl sm:text-5xl md:text-6xl font-black text-stone-900 leading-tight"
+          >
+            Premium Floors, <span class="text-stone-600">Installed Right</span>
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-stone-700 max-w-xl">
+            Discover Nigeria's finest collection of SPC, vinyl, and luxury
+            flooring solutions for homes, offices, and commercial spaces.
+          </p>
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <a
+              href="/all-products"
+              class="bg-[var(--brand-orange)] text-white py-3 px-6 rounded-lg font-semibold text-base transition-colors duration-300 hover:bg-[var(--brand-orange-dark)] text-center"
+            >
+              Shop Collections
+            </a>
+            <a
+              href="/vinyl"
+              class="bg-white text-[var(--brand-ink)] py-3 px-6 rounded-lg font-semibold text-base border border-stone-300 transition-colors duration-300 hover:bg-stone-100 text-center"
+            >
+              Explore Vinyl
+            </a>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-4 text-sm text-stone-600">
+            <span class="inline-flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Free on-site measurement
+            </span>
+            <span class="inline-flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+              Fast installation team
+            </span>
+            <span class="inline-flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-blue-500"></span>
+              Abuja showroom pickup
+            </span>
+          </div>
+        </div>
 
-    <!-- Categories Section -->
-    <section class="py-12">
-      <h2 class="text-3xl font-bold text-center mb-10">Our Categories</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {allCategories.map((category) => (
-          <a href={`/${category}`} class="group block">
-            <div class="relative rounded-lg overflow-hidden">
-              <img src={categoryImages[category]} alt={`${category} Flooring`} class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-300">
-              <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <h3 class="text-2xl font-bold text-white uppercase tracking-widest">{category}</h3>
-              </div>
+        <div class="grid grid-cols-2 auto-rows-[140px] md:auto-rows-[170px] gap-4">
+          <a
+            href="/spc"
+            class="group relative col-span-2 rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-sm"
+          >
+            <Image
+              src={resolveImage("/images/spc-1.jpeg")}
+              alt="SPC Flooring"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              sizes="(max-width: 1024px) 100vw, 640px"
+              width={960}
+              height={540}
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <p class="text-xs uppercase tracking-[0.3em] text-stone-200">SPC</p>
+              <p class="text-lg font-semibold text-white">Waterproof & Durable</p>
             </div>
           </a>
-        ))}
+          <a
+            href="/vinyl"
+            class="group relative rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-sm"
+          >
+            <Image
+              src={resolveImage("/images/vinyl-1.jpg")}
+              alt="Vinyl Flooring"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 1024px) 50vw, 280px"
+              width={640}
+              height={640}
+            />
+            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="absolute bottom-3 left-3">
+              <p class="text-xs uppercase tracking-[0.3em] text-stone-200">VINYL</p>
+              <p class="text-sm font-semibold text-white">Soft & Quiet</p>
+            </div>
+          </a>
+          <div class="rounded-2xl border border-stone-200 bg-white p-4 flex flex-col justify-between shadow-sm">
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+                Showroom
+              </p>
+              <p class="mt-2 text-lg font-semibold text-stone-900">
+                Wuse Zone 5, Abuja
+              </p>
+            </div>
+            <p class="text-sm text-stone-600">
+              Touch, feel, and compare before you buy.
+            </p>
+          </div>
+          <a
+            href="/accessory"
+            class="group relative rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-sm"
+          >
+            <Image
+              src={resolveImage("/images/skirting-1.jpeg")}
+              alt="Flooring Accessories"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 1024px) 50vw, 280px"
+              width={640}
+              height={640}
+            />
+            <div class="absolute inset-0 bg-black/25"></div>
+            <div class="absolute bottom-3 left-3">
+              <p class="text-xs uppercase tracking-[0.3em] text-stone-200">
+                ACCESSORY
+              </p>
+              <p class="text-sm font-semibold text-white">Finishing Details</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Bento -->
+    <section class="py-12">
+      <div class="flex items-end justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-bold">Shop by Category</h2>
+          <p class="text-stone-600 mt-2 max-w-xl">
+            Curated collections with real-world performance: waterproof SPC,
+            versatile vinyl, and the finishing accessories that make every edge
+            perfect.
+          </p>
+        </div>
+        <a
+          href="/all-products"
+          class="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-stone-900"
+        >
+          View all products
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4">
+        <a
+          href="/vinyl"
+          class="group relative md:row-span-2 rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-sm"
+        >
+          <Image
+            src={resolveImage(categoryImages.vinyl)}
+            alt="Vinyl Flooring"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
+            sizes="(max-width: 1024px) 100vw, 420px"
+            width={900}
+            height={1200}
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+          <div class="absolute bottom-5 left-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-200">Vinyl</p>
+            <p class="text-2xl font-semibold text-white">Comfort & Style</p>
+          </div>
+        </a>
+        <a
+          href="/spc"
+          class="group relative rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-sm"
+        >
+          <Image
+            src={resolveImage(categoryImages.spc)}
+            alt="SPC Flooring"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
+            sizes="(max-width: 1024px) 100vw, 420px"
+            width={900}
+            height={600}
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+          <div class="absolute bottom-5 left-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-200">SPC</p>
+            <p class="text-xl font-semibold text-white">Waterproof Core</p>
+          </div>
+        </a>
+        <a
+          href="/accessory"
+          class="group relative rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-sm"
+        >
+          <Image
+            src={resolveImage(categoryImages.accessory)}
+            alt="Accessories"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
+            sizes="(max-width: 1024px) 100vw, 420px"
+            width={900}
+            height={600}
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+          <div class="absolute bottom-5 left-5">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-200">
+              Accessories
+            </p>
+            <p class="text-xl font-semibold text-white">Clean Finishes</p>
+          </div>
+        </a>
+        <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+              PRO SERVICE
+            </p>
+            <p class="mt-2 text-xl font-semibold text-stone-900">
+              Installation with a warranty you can trust.
+            </p>
+          </div>
+          <p class="text-sm text-stone-600">
+            We measure, deliver, and install with a dedicated Abuja-based team.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Highlights -->
+    <section class="py-6 md:py-10">
+      <div class="grid md:grid-cols-4 gap-4">
+        <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+          <p class="text-sm font-semibold text-stone-900">Quality checks</p>
+          <p class="text-sm text-stone-600 mt-2">
+            Every batch is inspected for finish, texture, and stability.
+          </p>
+        </div>
+        <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+          <p class="text-sm font-semibold text-stone-900">Fast delivery</p>
+          <p class="text-sm text-stone-600 mt-2">
+            Abuja-based stock for quick turnaround and pickup.
+          </p>
+        </div>
+        <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+          <p class="text-sm font-semibold text-stone-900">Expert advice</p>
+          <p class="text-sm text-stone-600 mt-2">
+            Get layout guidance and maintenance tips from our team.
+          </p>
+        </div>
+        <div class="rounded-xl border border-stone-200 bg-white p-5 shadow-sm">
+          <p class="text-sm font-semibold text-stone-900">Bulk pricing</p>
+          <p class="text-sm text-stone-600 mt-2">
+            Contractors and offices get dedicated pricing support.
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- Featured Product Grid -->
     <section class="py-12">
-      <h2 class="text-3xl font-bold text-center mb-10">Featured Products</h2>
-      <div
-        class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-      >
+      <div class="flex items-end justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-bold">Featured Products</h2>
+          <p class="text-stone-600 mt-2 max-w-xl">
+            Hand-picked bestsellers across SPC, vinyl, and accessories.
+          </p>
+        </div>
+        <a
+          href="/all-products"
+          class="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-ink)]"
+        >
+          View all products
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {
           featuredProducts.map((product) => (
             <a
@@ -129,7 +370,10 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
         }
       </div>
       <div class="text-center mt-10">
-        <a href="/all-products" class="bg-stone-800 text-white py-3 px-8 rounded-lg font-semibold text-lg transition-colors duration-300 hover:bg-stone-900">
+        <a
+          href="/all-products"
+          class="bg-[var(--brand-ink)] text-white py-3 px-8 rounded-lg font-semibold text-lg transition-colors duration-300 hover:bg-black"
+        >
           View All Products
         </a>
       </div>

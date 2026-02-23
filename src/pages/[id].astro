@@ -1,6 +1,8 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import products from "../data/products.json";
+import { getImage } from "astro:assets";
+import { resolveImage } from "../lib/imageMap";
 
 export function getStaticPaths() {
   return products.map((product) => ({
@@ -17,34 +19,93 @@ const formattedPrice = new Intl.NumberFormat("en-NG", {
   currency: "NGN",
   minimumFractionDigits: 0,
 }).format(product.price);
+
+const galleryPaths = [
+  product.image,
+  ...(Array.isArray(product.images) ? product.images : []),
+].filter(Boolean);
+
+const galleryItems = await Promise.all(
+  galleryPaths.map(async (path) => {
+    const source = resolveImage(path);
+    if (!source) {
+      return { path, optimized: null };
+    }
+
+    const optimized = await getImage({
+      src: source,
+      widths: [320, 640, 960, 1280],
+      sizes: "(max-width: 1024px) 100vw, 50vw",
+      format: "webp",
+    });
+
+    return { path, optimized };
+  }),
+);
+
+const mainImage = galleryItems[0];
 ---
 
 <MainLayout title={product.name}>
-  <div class="container mx-auto px-6 py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+  <div class="container mx-auto px-4 md:px-6 py-10 md:py-16">
+    <section class="relative overflow-hidden rounded-3xl bg-[#f6f2ea] border border-stone-200/60 p-6 md:p-10 mb-10">
+      <div class="pointer-events-none absolute -top-16 -right-20 h-56 w-56 rounded-full bg-gradient-to-br from-amber-200/70 via-orange-200/40 to-transparent blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-gradient-to-tr from-emerald-200/60 via-lime-200/40 to-transparent blur-3xl"></div>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div>
+          <p class="text-xs uppercase tracking-[0.35em] text-stone-500">
+            {product.category}
+          </p>
+          <h1 class="text-4xl md:text-5xl font-black text-stone-900 mt-2">
+            {product.name}
+          </h1>
+          <p class="text-stone-600 mt-3 max-w-xl">
+            {product.description}
+          </p>
+        </div>
+        <div class="rounded-2xl bg-white/80 border border-stone-200 px-6 py-5 shadow-sm">
+          <p class="text-xs uppercase tracking-[0.35em] text-stone-500">
+            Price
+          </p>
+          <p class="text-3xl font-black text-stone-900 mt-2">
+            {formattedPrice}
+          </p>
+          <p class="text-sm text-stone-600 mt-1">Per square meter</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid lg:grid-cols-[1.2fr_1fr] gap-10">
       <div class="space-y-4">
-        <div
-          class="relative overflow-hidden rounded-2xl bg-stone-100 border border-stone-200"
-        >
+        <div class="relative overflow-hidden rounded-2xl bg-white border border-stone-200 shadow-sm">
           <img
             id="main-image"
-            src={product.image}
+            src={mainImage?.optimized?.src ?? mainImage?.path}
+            srcset={mainImage?.optimized?.srcset}
+            sizes="(max-width: 1024px) 100vw, 50vw"
             alt={product.name}
-            class="w-full h-[400px] md:h-[600px] object-cover transition-opacity duration-300"
+            class="w-full h-[360px] md:h-[560px] object-cover transition-opacity duration-300"
+            loading="eager"
+            decoding="async"
           />
         </div>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-4 gap-3">
           {
-            product.images.map((img, index) => (
+            galleryItems.map((item, index) => (
               <button
                 class="thumbnail-btn overflow-hidden rounded-lg border-2 border-transparent hover:border-stone-800 focus:border-stone-800 transition-all"
-                data-src={img}
+                data-src={item.optimized?.src ?? item.path}
+                data-srcset={item.optimized?.srcset}
               >
                 <img
-                  src={img}
+                  src={item.optimized?.src ?? item.path}
+                  srcset={item.optimized?.srcset}
+                  sizes="120px"
                   alt={`View ${index + 1}`}
                   class="w-full h-20 md:h-28 object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               </button>
             ))
@@ -52,25 +113,18 @@ const formattedPrice = new Intl.NumberFormat("en-NG", {
         </div>
       </div>
 
-      <div class="flex flex-col justify-center">
-        <nav class="text-sm text-stone-500 mb-4 uppercase tracking-widest">
-          Floor Boss NG / {product.category}
-        </nav>
-        <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">
-          {product.name}
-        </h1>
-        <p class="text-3xl font-bold text-stone-800 mb-6">{formattedPrice}</p>
-
-        <div class="prose prose-stone mb-8">
-          <p class="text-stone-600 text-lg leading-relaxed">
-            {product.description}
+      <div class="flex flex-col gap-6">
+        <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <nav class="text-xs text-stone-500 uppercase tracking-[0.35em]">
+            Floor Boss NG / {product.category}
+          </nav>
+          <p class="text-sm text-stone-600 mt-4">
+            Need guidance on coverage? We help you estimate materials and trim.
           </p>
-        </div>
-
-        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
           <button
             id="add-to-cart-btn"
-            class="flex-1 bg-stone-900 text-white py-4 rounded-xl font-bold hover:bg-black transition-colors shadow-lg shadow-stone-200"
+            class="flex-1 bg-[var(--brand-orange)] text-white py-3.5 rounded-xl font-bold hover:bg-[var(--brand-orange-dark)] transition-colors shadow-lg shadow-stone-200"
             data-product-id={product.id}
             data-product-name={product.name}
             data-product-price={product.price}
@@ -80,19 +134,101 @@ const formattedPrice = new Intl.NumberFormat("en-NG", {
           </button>
           <button
             id="whatsapp-inquiry-btn"
-            class="flex-1 border-2 border-stone-900 text-stone-900 py-4 rounded-xl font-bold hover:bg-stone-50 transition-colors"
+            class="flex-1 border-2 border-[var(--brand-ink)] text-[var(--brand-ink)] py-3.5 rounded-xl font-bold hover:bg-stone-50 transition-colors"
           >
             WhatsApp Inquiry
           </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+              Warranty
+            </p>
+            <p class="text-sm font-semibold text-stone-900 mt-2">
+              Installation support
+            </p>
+            <p class="text-xs text-stone-600 mt-1">
+              Professional fitting available.
+            </p>
+          </div>
+          <div class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+              Care
+            </p>
+            <p class="text-sm font-semibold text-stone-900 mt-2">
+              Easy maintenance
+            </p>
+            <p class="text-xs text-stone-600 mt-1">
+              Simple clean + polish tips.
+            </p>
+          </div>
+          <div class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+              Stock
+            </p>
+            <p class="text-sm font-semibold text-stone-900 mt-2">
+              Abuja ready
+            </p>
+            <p class="text-xs text-stone-600 mt-1">
+              Pickup or fast delivery.
+            </p>
+          </div>
+          <div class="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+            <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+              Bulk
+            </p>
+            <p class="text-sm font-semibold text-stone-900 mt-2">
+              Contractor pricing
+            </p>
+            <p class="text-xs text-stone-600 mt-1">
+              Get a quote in minutes.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="mt-10 grid md:grid-cols-3 gap-4">
+      <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+          On-site visit
+        </p>
+        <p class="text-lg font-semibold text-stone-900 mt-2">
+          Free measurement in Abuja
+        </p>
+        <p class="text-sm text-stone-600 mt-2">
+          We assess space, moisture levels, and surface prep needs.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+          Timeline
+        </p>
+        <p class="text-lg font-semibold text-stone-900 mt-2">
+          Install in 1-3 days
+        </p>
+        <p class="text-sm text-stone-600 mt-2">
+          Planned schedules for homes, offices, and commercial spaces.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <p class="text-xs uppercase tracking-[0.3em] text-stone-500">
+          Aftercare
+        </p>
+        <p class="text-lg font-semibold text-stone-900 mt-2">
+          Ongoing maintenance tips
+        </p>
+        <p class="text-sm text-stone-600 mt-2">
+          We share cleaning routines to preserve the finish.
+        </p>
+      </div>
+    </section>
   </div>
 </MainLayout>
 
 <script>
-  import { addToCart } from "../lib/cart.js";
-
   // Script to handle the "Slide" / Swap effect
   const mainImage = document.getElementById("main-image") as HTMLImageElement;
   const thumbnailBtns = document.querySelectorAll(".thumbnail-btn");
@@ -100,28 +236,20 @@ const formattedPrice = new Intl.NumberFormat("en-NG", {
   thumbnailBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const newSrc = btn.getAttribute("data-src");
+      const newSrcset = btn.getAttribute("data-srcset");
       if (mainImage && newSrc) {
         // Simple fade out/in effect
         mainImage.style.opacity = "0";
         setTimeout(() => {
           mainImage.src = newSrc;
+          if (newSrcset) {
+            mainImage.srcset = newSrcset;
+          }
           mainImage.style.opacity = "1";
         }, 200);
       }
     });
   });
-
-  // Add to Cart Logic
-  const addToCartBtn = document.getElementById('add-to-cart-btn');
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', () => {
-      const id = parseInt(addToCartBtn.dataset.productId);
-      const name = addToCartBtn.dataset.productName;
-      const price = parseFloat(addToCartBtn.dataset.productPrice);
-      const image = addToCartBtn.dataset.productImage;
-      addToCart(id, name, price, image);
-    });
-  }
 
   // WhatsApp Inquiry Logic
   const whatsappInquiryBtn = document.getElementById('whatsapp-inquiry-btn');
