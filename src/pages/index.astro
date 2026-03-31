@@ -354,18 +354,16 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
       <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {
           featuredProducts.map((product) => (
-            <a
-              href=`/${product.id}`
-              class="font-bold text-stone-700 hover:text-stone-900 uppercase"
-            >
+            <div class="font-bold text-stone-700 uppercase">
               <ProductCard
                 id={product.id}
                 name={product.name}
                 price={product.price}
                 image={product.image}
                 description={product.description}
+                href={`/${product.id}`}
               />
-            </a>
+            </div>
           ))
         }
       </div>

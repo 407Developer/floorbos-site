@@ -116,8 +116,7 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
       >
         {
           productsFromCategory.map((product) => (
-            <a
-              href={`/${product.id}`}
+            <div
               class="font-bold text-stone-700 hover:text-stone-900 uppercase product-card"
               data-name={product.name.toLowerCase()}
               data-price={product.price}
@@ -128,8 +127,9 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
                 price={product.price}
                 image={product.image}
                 description={product.description}
+                href={`/${product.id}`}
               />
-            </a>
+            </div>
           ))
         }
       </div>

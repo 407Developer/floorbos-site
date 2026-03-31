@@ -8,7 +8,7 @@ function updateCartButtons() {
     .forEach((button) => {
       const id = parseInt(button.dataset.productId);
       if (ids.has(id)) {
-        button.textContent = "In Cart";
+        button.textContent = "Add Another";
         button.classList.add("opacity-90");
       } else {
         button.textContent = "Add to Cart";
@@ -25,6 +25,7 @@ function initPage() {
       if (!button) return;
 
       event.preventDefault();
+      event.stopPropagation();
       const id = parseInt(button.dataset.productId);
       const name = button.dataset.productName;
       const price = parseFloat(button.dataset.productPrice);
@@ -52,17 +53,23 @@ function initPage() {
       });
     });
 
-    document.addEventListener("click", (event) => {
-      if (
-        mobileMenu.classList.contains("hidden") ||
-        mobileMenuButton.contains(event.target) ||
-        mobileMenu.contains(event.target)
-      ) {
-        return;
-      }
-      mobileMenu.classList.add("hidden");
-      mobileMenuButton.setAttribute("aria-expanded", "false");
-    });
+    if (!window.__mobileMenuOutsideListenerAttached) {
+      document.addEventListener("click", (event) => {
+        const activeMenuButton = document.getElementById("mobile-menu-button");
+        const activeMenu = document.getElementById("mobile-menu");
+        if (!activeMenuButton || !activeMenu) return;
+        if (
+          activeMenu.classList.contains("hidden") ||
+          activeMenuButton.contains(event.target) ||
+          activeMenu.contains(event.target)
+        ) {
+          return;
+        }
+        activeMenu.classList.add("hidden");
+        activeMenuButton.setAttribute("aria-expanded", "false");
+      });
+      window.__mobileMenuOutsideListenerAttached = true;
+    }
 
     mobileMenuButton.dataset.bound = "true";
   }
@@ -71,5 +78,9 @@ function initPage() {
 }
 
 // Run on initial page load and also after client-side navigation
-window.addEventListener("DOMContentLoaded", initPage);
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", initPage, { once: true });
+} else {
+  initPage();
+}
 document.addEventListener("astro:after-swap", initPage);

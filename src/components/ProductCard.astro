@@ -10,9 +10,10 @@ interface Props {
   price: number;
   image: string;
   description: string;
+  href: string;
 }
 
-const { id, name, price, image, description } = Astro.props;
+const { id, name, price, image, description, href } = Astro.props;
 const imageSrc = resolveImage(image);
 
 const formattedPrice = new Intl.NumberFormat('en-NG', {
@@ -23,37 +24,43 @@ const formattedPrice = new Intl.NumberFormat('en-NG', {
 ---
 
 <div itemscope itemtype="https://schema.org/Product" class="bg-white/90 backdrop-blur-sm shadow-xl rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group border border-stone-200/50">
-  <div class="relative">
-    {
-      imageSrc ? (
-        <Image
-          itemprop="image"
-          class="w-full h-40 md:h-56 object-cover"
-          src={imageSrc}
-          alt={`Image of ${name}`}
-          loading="lazy"
-          decoding="async"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
-          width={640}
-          height={480}
-        />
-      ) : (
-        <img
-          itemprop="image"
-          class="w-full h-40 md:h-56 object-cover"
-          src={image}
-          alt={`Image of ${name}`}
-          loading="lazy"
-          decoding="async"
-          width="640"
-          height="480"
-        />
-      )
-    }
-    <div class="absolute inset-0 bg-black/20"></div>
-  </div>
+  <a href={href} class="block focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--brand-orange)]">
+    <div class="relative">
+      {
+        imageSrc ? (
+          <Image
+            itemprop="image"
+            class="w-full h-40 md:h-56 object-cover"
+            src={imageSrc}
+            alt={`Image of ${name}`}
+            loading="lazy"
+            decoding="async"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+            width={640}
+            height={480}
+          />
+        ) : (
+          <img
+            itemprop="image"
+            class="w-full h-40 md:h-56 object-cover"
+            src={image}
+            alt={`Image of ${name}`}
+            loading="lazy"
+            decoding="async"
+            width="640"
+            height="480"
+          />
+        )
+      }
+      <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+  </a>
   <div class="p-3 md:p-5">
-    <h3 itemprop="name" class="text-l md:text-xl font-bold text-stone-800">{name}</h3>
+    <h3 itemprop="name" class="text-l md:text-xl font-bold text-stone-800">
+      <a href={href} class="hover:text-[var(--brand-orange)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange)]">
+        {name}
+      </a>
+    </h3>
     <p itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="text-lg font-semibold text-stone-600 mt-1">
       <meta itemprop="priceCurrency" content="NGN" />
       <span itemprop="price" content={price}>{formattedPrice}</span>
