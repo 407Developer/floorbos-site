@@ -2,7 +2,6 @@
 import products from "../data/products.json";
 import { Image } from "astro:assets";
 import logo from "../assets/images/floor-boss-icon.jpg";
-import siteClientScript from "../scripts/site-client.js?url";
 
 const WHATSAPP_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual WhatsApp number
 const PHONE_NUMBER = "+2349165208580"; // IMPORTANT: Replace with your actual Phone number
@@ -241,6 +240,8 @@ const siteName = "FLOOR BOSS ng";
       }
     </style>
 
-    <script type="module" src={siteClientScript}></script>
+    <script>
+      import "../scripts/site-client.js";
+    </script>
   </body>
 </html>
