@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://floor-boss.netlify.app/sitemap.xml

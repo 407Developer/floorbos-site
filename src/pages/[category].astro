@@ -12,9 +12,10 @@ export function getStaticPaths() {
 
 const { category } = Astro.params;
 const productsFromCategory = products.filter((p) => p.category === category);
+const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
 
-const pageTitle = `FLOOR BOSS ng - ${category.charAt(0).toUpperCase() + category.slice(1)}`;
-const pageDescription = `Explore our collection of ${category} flooring solutions.`;
+const pageTitle = `${categoryName} Flooring in Abuja | FLOOR BOSS ng`;
+const pageDescription = `Browse ${categoryName.toLowerCase()} flooring and accessories from FLOOR BOSS ng in Abuja. Compare styles, pricing, and installation-ready options.`;
 const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
 ---
 
@@ -33,7 +34,7 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
             Collection
           </p>
           <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-stone-900 leading-tight mt-2">
-            {category.charAt(0).toUpperCase() + category.slice(1)}
+            {categoryName}
           </h1>
           <p class="mt-4 text-base sm:text-lg text-stone-600 max-w-xl">
             Browse our premium selection of {category} flooring built for daily

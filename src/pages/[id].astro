@@ -44,9 +44,42 @@ const galleryItems = await Promise.all(
 );
 
 const mainImage = galleryItems[0];
+const pageTitle = `${product.name} | ${product.category.toUpperCase()} Flooring in Abuja | FLOOR BOSS ng`;
+const pageDescription = `${product.description} Available from FLOOR BOSS ng in Abuja with pickup, delivery, and installation support.`;
+const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.description,
+  image: galleryItems
+    .map((item) => item.optimized?.src ?? item.path)
+    .filter(Boolean)
+    .map((path) => new URL(path, Astro.url.origin).toString()),
+  category: product.category,
+  brand: {
+    "@type": "Brand",
+    name: "FLOOR BOSS ng",
+  },
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "NGN",
+    price: product.price,
+    availability: "https://schema.org/InStock",
+    url: pageCanonicalURL,
+  },
+};
 ---
 
-<MainLayout title={product.name}>
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalURL={pageCanonicalURL}
+  ogImage={product.image}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </Fragment>
   <div class="container mx-auto px-4 md:px-6 py-10 md:py-16">
     <section class="relative overflow-hidden rounded-3xl bg-[#f6f2ea] border border-stone-200/60 p-6 md:p-10 mb-10">
       <div class="pointer-events-none absolute -top-16 -right-20 h-56 w-56 rounded-full bg-gradient-to-br from-amber-200/70 via-orange-200/40 to-transparent blur-3xl"></div>

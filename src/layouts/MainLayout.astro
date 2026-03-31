@@ -13,51 +13,55 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
+  noIndex?: boolean;
 }
 
-const { title, description, ogImage, canonicalURL } = Astro.props;
+const { title, description, ogImage, canonicalURL, noIndex } = Astro.props;
 
 const defaultDescription =
   "Discover Nigeria's finest collection of SPC, vinyl, and luxury flooring solutions from FLOOR BOSS ng, based in Abuja. Quality floors for homes and offices.";
-const defaultOgImage = "/images/floorboss-og.jpg"; // You'll need to create this image
+const defaultOgImage = "/images/floor-boss-icon.jpg";
 const currentURL = canonicalURL || Astro.url.href;
 const siteName = "FLOOR BOSS ng";
+const metaDescription = description || defaultDescription;
+const resolvedOgImage = new URL(
+  ogImage || defaultOgImage,
+  Astro.site || Astro.url,
+).toString();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-NG">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/jpeg" href="/images/floor-boss-icon.jpg" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
-    <meta name="description" content={description || defaultDescription} />
+    <meta name="description" content={metaDescription} />
     <link rel="canonical" href={currentURL} />
+    <meta
+      name="robots"
+      content={noIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+    />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={currentURL} />
     <meta property="og:title" content={title} />
-    <meta
-      property="og:description"
-      content={description || defaultDescription}
-    />
-    <meta property="og:image" content={ogImage || defaultOgImage} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:site_name" content={siteName} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={currentURL} />
     <meta property="twitter:title" content={title} />
-    <meta
-      property="twitter:description"
-      content={description || defaultDescription}
-    />
-    <meta property="twitter:image" content={ogImage || defaultOgImage} />
+    <meta property="twitter:description" content={metaDescription} />
+    <meta property="twitter:image" content={resolvedOgImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -70,6 +74,7 @@ const siteName = "FLOOR BOSS ng";
         font-family: "Space Grotesk", sans-serif;
       }
     </style>
+    <slot name="head" />
   </head>
   <body class="bg-[var(--brand-cream)] text-[var(--brand-ink)]">
     <header class="bg-white/95 backdrop-blur shadow-md sticky top-0 z-50">

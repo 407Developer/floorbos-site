@@ -28,8 +28,33 @@ const categoryImages = {
 
 const pageTitle = "FLOOR BOSS ng - Premium Flooring in Abuja & Beyond";
 const pageDescription =
-  "Discover Nigeria's finest collection of SPC, vinyl, and luxury flooring solutions from FLOOR BOSS ng, based in Abuja. Quality floors for homes and offices.";
+  "Floor Boss NG supplies vinyl, SPC, and flooring accessories in Abuja. Shop quality floors for homes, offices, and commercial spaces in Nigeria.";
 const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "FLOOR BOSS ng",
+  image: `${Astro.url.origin}/images/floor-boss-icon.jpg`,
+  "@id": `${Astro.url.origin}/`,
+  url: `${Astro.url.origin}/`,
+  telephone: "+2349165208580",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Abari Shopping Centre, Wuse Zone 5",
+    addressLocality: "Abuja",
+    addressCountry: "NG",
+  },
+  areaServed: "Abuja",
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "17:00",
+    },
+  ],
+  sameAs: ["https://www.instagram.com/floorboss_ng"],
+};
 ---
 
 <MainLayout
@@ -38,42 +63,7 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
   canonicalURL={pageCanonicalURL}
 >
   <Fragment slot="head">
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "FLOOR BOSS ng",
-        "image": "${Astro.url.origin}/images/floorboss-og.jpg",
-        "@id": "${Astro.url.origin}/",
-        "url": "${Astro.url.origin}/",
-        "telephone": "+2349165208580",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Wuse zone 5",
-          "addressLocality": "Abuja",
-          "addressCountry": "NG"
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "09:00",
-            "closes": "17:00"
-          }
-        ],
-        "sameAs": [
-          "https://www.instagram.com/floorboss_ng"
-          // Add other social media links here
-        ]
-      }
-      // <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </Fragment>
 
   <div class="container mx-auto px-4 md:px-6 py-10 md:py-16">
@@ -92,8 +82,8 @@ const pageCanonicalURL = Astro.url.origin + Astro.url.pathname;
             Premium Floors, <span class="text-stone-600">Installed Right</span>
           </h1>
           <p class="mt-4 text-base sm:text-lg text-stone-700 max-w-xl">
-            Discover Nigeria's finest collection of SPC, vinyl, and luxury
-            flooring solutions for homes, offices, and commercial spaces.
+            Floor Boss NG supplies SPC, vinyl, and luxury flooring solutions
+            for homes, offices, and commercial spaces across Abuja.
           </p>
           <div class="mt-6 flex flex-col sm:flex-row gap-3">
             <a
